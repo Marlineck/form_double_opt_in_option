@@ -5,6 +5,7 @@ namespace LinaWolf\FormDoubleOptIn\Domain\Finishers;
 use LinaWolf\FormDoubleOptIn\Domain\Model\OptIn;
 use LinaWolf\FormDoubleOptIn\Domain\Repository\OptInRepository;
 use LinaWolf\FormDoubleOptIn\Event\AfterOptInCreationEvent;
+use LinaWolf\FormDoubleOptIn\Event\RedirectToConfirmationFormEvent;
 use LinaWolf\FormDoubleOptIn\Utility\AddressUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Mime\Address;
@@ -81,7 +82,12 @@ final class DoubleOptInFormFinisher extends EmailFinisher
 
         $this->persistenceManager->persistAll();
 
-        $this->sendDoubleOptInMail($formRuntime, $optIn, $validationPid);
+        $useConfirmEmailButton = $this->parseOption('useConfirmEmailButton');
+        if ($useConfirmEmailButton) {
+            $this->eventDispatcher->dispatch(new RedirectToConfirmationFormEvent($optIn, $validationPid));
+        } else {
+            $this->sendDoubleOptInMail($formRuntime, $optIn, $validationPid);
+        }
 
         $this->finisherContext->getFinisherVariableProvider()->add(
             $this->shortFinisherIdentifier,
@@ -196,11 +202,15 @@ final class DoubleOptInFormFinisher extends EmailFinisher
         if (empty($senderAddress)) {
             throw new FinisherException('The option "senderAddress" must be set for the DoubleOptInFormFinisher.', 1_327_060_210);
         }
+        // Check if we should use form link instead of direct validation link
+        $useFormLinkInEmail = $this->parseOption('useFormLinkInEmail');
+
         $mail = $this->initializeFluidEmail($formRuntime)
             ->format($addHtmlPart ? FluidEmail::FORMAT_BOTH : FluidEmail::FORMAT_PLAIN)
             ->assign('title', $subject)
             ->assign('optIn', $optIn)
-            ->assign('validationPid', $validationPid);
+            ->assign('validationPid', $validationPid)
+            ->assign('useFormLinkInEmail', $useFormLinkInEmail);
 
         $doubleOpInTemplateName = $this->options['doubleOpInTemplateName'] ?? 'DoubleOptIn';
         $mail
