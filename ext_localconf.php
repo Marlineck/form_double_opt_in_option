@@ -14,10 +14,10 @@ call_user_func(static function (): void {
         'form_double_opt_in',
         'DoubleOptIn',
         [
-            DoubleOptInController::class => 'validation,delete',
+            DoubleOptInController::class => 'validation,delete,confirmEmail',
         ],
         [
-            DoubleOptInController::class => 'validation,delete',
+            DoubleOptInController::class => 'validation,delete,confirmEmail',
         ],
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
