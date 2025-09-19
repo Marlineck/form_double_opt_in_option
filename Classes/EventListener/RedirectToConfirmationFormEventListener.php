@@ -6,7 +6,6 @@ use LinaWolf\FormDoubleOptIn\Event\RedirectToConfirmationFormEvent;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class RedirectToConfirmationFormEventListener
 {
@@ -24,7 +23,7 @@ class RedirectToConfirmationFormEventListener
                 ['hash' => $optIn->getValidationHash(), 'validationPid' => $validationPid],
                 'DoubleOptIn',
                 'formdoubleoptin',
-                'doubleoptin'
+                'doubleoptin',
             );
 
         $response = new RedirectResponse($uri, 302);
