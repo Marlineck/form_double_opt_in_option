@@ -8,7 +8,7 @@ final class RedirectToConfirmationFormEvent
 {
     public function __construct(
         private readonly OptIn $optIn,
-        private readonly int $validationPid
+        private readonly int $validationPid,
     ) {}
 
     public function getOptIn(): OptIn
