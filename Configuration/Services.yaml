@@ -12,8 +12,3 @@ services:
     tags:
       - name: install.upgradewizard
 
-  LinaWolf\FormDoubleOptIn\EventListener\RedirectToConfirmationFormEventListener:
-    tags:
-      - name: event.listener
-        identifier: 'redirect-to-confirmation-form'
-        event: LinaWolf\FormDoubleOptIn\Event\RedirectToConfirmationFormEvent
