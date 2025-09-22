@@ -5,7 +5,6 @@ namespace LinaWolf\FormDoubleOptIn\Domain\Finishers;
 use LinaWolf\FormDoubleOptIn\Domain\Model\OptIn;
 use LinaWolf\FormDoubleOptIn\Domain\Repository\OptInRepository;
 use LinaWolf\FormDoubleOptIn\Event\AfterOptInCreationEvent;
-use LinaWolf\FormDoubleOptIn\Event\RedirectToConfirmationFormEvent;
 use LinaWolf\FormDoubleOptIn\Utility\AddressUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Mime\Address;
@@ -83,16 +82,49 @@ final class DoubleOptInFormFinisher extends EmailFinisher
         $this->persistenceManager->persistAll();
 
         $useConfirmEmailButton = $this->parseOption('useConfirmEmailButton');
+
+        $validationPidInt = (int)$validationPid;
+
         if ($useConfirmEmailButton) {
-            $this->eventDispatcher->dispatch(new RedirectToConfirmationFormEvent($optIn, $validationPid));
+            $this->redirectToConfirmEmail($validationPidInt, $optIn);
         } else {
-            $this->sendDoubleOptInMail($formRuntime, $optIn, $validationPid);
+            $this->sendDoubleOptInMail($formRuntime, $optIn, $validationPidInt);
         }
 
         $this->finisherContext->getFinisherVariableProvider()->add(
             $this->shortFinisherIdentifier,
             'optInRecordUid',
             $optIn->getUid(),
+        );
+    }
+
+    private function redirectToConfirmEmail(int $validationPid, $optIn): void
+    {
+        /** @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder $uriBuilder */
+        $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder::class
+        );
+
+        $uriBuilder->setRequest($this->finisherContext->getRequest());
+
+        $uri = $uriBuilder
+            ->reset()
+            ->setTargetPageUid($validationPid)
+            ->uriFor(
+                'confirmEmail',
+                [
+                    'hash' => $optIn->getValidationHash(),
+                    'validationPid' => $validationPid,
+                ],
+                'DoubleOptIn',
+                'formdoubleoptin',
+                'doubleoptin'
+            );
+
+        $this->finisherContext->cancel();
+        throw new \TYPO3\CMS\Core\Http\PropagateResponseException(
+            new \TYPO3\CMS\Core\Http\RedirectResponse($uri, 303),
+            1477070964
         );
     }
 
