@@ -86,7 +86,7 @@ final class DoubleOptInFormFinisher extends EmailFinisher
     {
         /** @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder $uriBuilder */
         $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder::class
+            \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder::class,
         );
 
         $uriBuilder->setRequest($this->finisherContext->getRequest());
@@ -102,13 +102,13 @@ final class DoubleOptInFormFinisher extends EmailFinisher
                 ],
                 'DoubleOptIn',
                 'formdoubleoptin',
-                'doubleoptin'
+                'doubleoptin',
             );
 
         $this->finisherContext->cancel();
         throw new \TYPO3\CMS\Core\Http\PropagateResponseException(
             new \TYPO3\CMS\Core\Http\RedirectResponse($uri, 303),
-            1477070964
+            1477070964,
         );
     }
 
