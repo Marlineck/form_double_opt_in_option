@@ -82,7 +82,7 @@ final class DoubleOptInFormFinisher extends EmailFinisher
         );
     }
 
-    private function redirectToConfirmEmail(int $validationPid, $optIn): void
+    private function redirectToConfirmEmail(int $validationPid, OptIn $optIn): void
     {
         /** @var \TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder $uriBuilder */
         $uriBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
