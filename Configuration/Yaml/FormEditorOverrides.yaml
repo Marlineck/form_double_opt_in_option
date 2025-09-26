@@ -175,6 +175,18 @@ TYPO3:
                           label: Use form for confimation
                           propertyPath: options.useFormLinkInEmail
                           fieldExplanationText: When enabled, email confirmation is done with a form instead of direct validation by link
+                        1150:
+                          identifier: emailText
+                          templateName: Inspector-TextareaEditor
+                          label: 'E-mail text (before confirmation link)'
+                          propertyPath: options.emailText
+                          enableFormelementSelectionButton: true
+                        1170:
+                          identifier: textSuccess
+                          templateName: Inspector-TextareaEditor
+                          label: 'Success message (after confirmation)'
+                          propertyPath: options.textSuccess
+                          enableFormelementSelectionButton: true
                         1200:
                           identifier: language
                           templateName: Inspector-SingleSelectEditor
@@ -226,6 +238,8 @@ TYPO3:
                     blindCarbonCopyAddress: ''
                     subjectReceiver: ''
                     useFormLinkInEmail: false
+                    emailText: 'vielen Dank für Ihre Anmeldung. Um Ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf den folgenden Link oder kopieren Sie diesen in die Adresszeile Ihres Browsers:'
+                    textSuccess: 'Vielen Dank, Ihre Registrierung wurde erfolgreich bestätigt.'
               FormEngine:
                 label: 'Double Opt-In'
                 elements:
