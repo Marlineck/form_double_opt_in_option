@@ -238,8 +238,8 @@ TYPO3:
                     blindCarbonCopyAddress: ''
                     subjectReceiver: ''
                     useFormLinkInEmail: false
-                    emailText: 'vielen Dank für Ihre Anmeldung. Um Ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf den folgenden Link oder kopieren Sie diesen in die Adresszeile Ihres Browsers:'
-                    textSuccess: 'Vielen Dank, Ihre Registrierung wurde erfolgreich bestätigt.'
+                    emailText: 'Thank you for your registration. To confirm your e-mail address, please click on the following link or copy it into the address bar of your browser:'
+                    textSuccess: 'Thank you, your registration has been successfully confirmed.'
               FormEngine:
                 label: 'Double Opt-In'
                 elements:
