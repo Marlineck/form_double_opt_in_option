@@ -239,7 +239,6 @@ final class DoubleOptInFormFinisher extends EmailFinisher
         $emailText = (string)$this->parseOption('emailText');
         $textSuccess = (string)$this->parseOption('textSuccess');
 
-
         $mail = $this->initializeFluidEmail($formRuntime)
             ->format($addHtmlPart ? FluidEmail::FORMAT_BOTH : FluidEmail::FORMAT_PLAIN)
             ->assign('title', $subject)

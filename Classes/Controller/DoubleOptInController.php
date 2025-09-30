@@ -97,7 +97,7 @@ class DoubleOptInController extends ActionController
         }
 
         if ($this->request->hasArgument('textSuccess')) {
-            $this->view->assign('textSuccess',  (string)$this->request->getArgument('textSuccess'));
+            $this->view->assign('textSuccess', (string)$this->request->getArgument('textSuccess'));
         }
         $this->view->assign('success', $success);
         $this->view->assign('optIn', $optIn);
